@@ -1,4 +1,5 @@
 USB 3.x Mass Storage Device Driver
+
 Linux Kernel Driver Development | USB 3.x (UAS + BOT)
 
 A Linux kernel USB Mass Storage driver developed to understand and implement USB 3.x SuperSpeed communication, storage protocols, asynchronous data transfers, and block device integration.
@@ -17,37 +18,45 @@ Bulk-Only Transport (BOT): A traditional USB Mass Storage transport protocol usi
 The driver detects the supported interface, selects the appropriate transport protocol, communicates with the storage device, and registers the storage capacity as a Linux block device.
 
 Key Features
+Key Features
 1. USB 3.x SuperSpeed Detection
-Detect USB 3.x SuperSpeed devices.
-Inspect USB device and interface descriptors.
-Read SuperSpeed capability information from the BOS descriptor.
-Display link speed and U1/U2 Link Power Management (LPM) status.
-Identify supported USB Mass Storage interfaces.
+
+    Detect USB 3.x SuperSpeed devices.
+    Inspect USB device and interface descriptors.
+    Read SuperSpeed capability information from the BOS descriptor.
+    Display link speed and U1/U2 Link Power Management (LPM) status.
+    Identify supported USB Mass Storage interfaces.
+
 2. SuperSpeed Endpoint Configuration
-Identify UAS command, status, data IN, and data OUT endpoints.
-Parse UAS Pipe Usage descriptors.
-Inspect SuperSpeed Endpoint Companion Descriptor information.
-Read maximum burst and stream capabilities.
-Configure bulk endpoints for UAS communication.
+
+    Identify UAS command, status, data IN, and data OUT endpoints.
+    Parse UAS Pipe Usage descriptors.
+    Inspect SuperSpeed Endpoint Companion Descriptor information.
+    Read maximum burst and stream capabilities.
+    Configure bulk endpoints for UAS communication.
+
 3. USB Attached SCSI (UAS)
-Implement UAS command submission.
-Build and transfer Command Information Units (Command IUs).
-Handle SCSI command tags and USB stream IDs.
-Allocate and manage USB streams.
-Support asynchronous URB submission.
-Process command, data, and status completions.
-Handle concurrent storage requests.
+
+    Implement UAS command submission.
+    Build and transfer Command Information Units (Command IUs).
+    Handle SCSI command tags and USB stream IDs.
+    Allocate and manage USB streams.
+    Support asynchronous URB submission.
+    Process command, data, and status completions.
+    Handle concurrent storage requests.
+
 4. Bulk-Only Transport (BOT)
-Implement Command Block Wrapper (CBW).
-Implement Command Status Wrapper (CSW).
-Handle command, data, and status phases.
-Validate BOT signatures and command tags.
-Implement BOT reset recovery.
-Support devices that do not provide UAS functionality.
+
+    Implement Command Block Wrapper (CBW).
+    Implement Command Status Wrapper (CSW).
+    Handle command, data, and status phases.
+    Validate BOT signatures and command tags.
+    Implement BOT reset recovery.
+    Support devices that do not provide UAS functionality.
+
 5. SCSI Command Processing
 
 The driver implements the following SCSI commands:
-
 SCSI Command	Purpose
 INQUIRY	Identify the storage device
 TEST UNIT READY	Check device readiness
@@ -55,27 +64,33 @@ READ CAPACITY (10)	Retrieve storage capacity
 READ (10)	Read storage blocks
 WRITE (10)	Write storage blocks
 6. Linux Block Layer Integration
-Integrate with the Linux block subsystem.
-Use the blk-mq multi-queue framework.
-Convert block requests into SCSI READ/WRITE commands.
-Translate Linux sector addresses into device LBAs.
-Handle scatter-gather request segments.
-Register a Linux block device.
-Support block-level read and write operations.
+
+    Integrate with the Linux block subsystem.
+    Use the blk-mq multi-queue framework.
+    Convert block requests into SCSI READ/WRITE commands.
+    Translate Linux sector addresses into device LBAs.
+    Handle scatter-gather request segments.
+    Register a Linux block device.
+    Support block-level read and write operations.
+
 7. USB 3.x Power Management
-Support USB runtime power management.
-Handle USB suspend and resume.
-Support UAS stream restoration after USB reset.
-Manage interface power references during I/O.
-Provide a module parameter to disable hub-initiated U1/U2 transitions.
+
+    Support USB runtime power management.
+    Handle USB suspend and resume.
+    Support UAS stream restoration after USB reset.
+    Manage interface power references during I/O.
+    Provide a module parameter to disable hub-initiated U1/U2 transitions.
+
 8. Error Handling and Recovery
-Handle USB transfer errors.
-Handle command and data transfer failures.
-Implement UAS request timeout handling.
-Process SCSI status and sense information.
-Handle device disconnection.
-Implement USB reset and recovery mechanisms.
-Architecture
+
+    Handle USB transfer errors.
+    Handle command and data transfer failures.
+    Implement UAS request timeout handling.
+    Process SCSI status and sense information.
+    Handle device disconnection.
+    Implement USB reset and recovery mechanisms.
+
+
 
 The driver follows this communication architecture:
 
