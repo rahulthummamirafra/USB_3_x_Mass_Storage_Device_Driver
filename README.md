@@ -98,30 +98,23 @@ The driver follows this communication architecture:
   <img src="https://github.com/rahulthummamirafra/USB_3_x_Mass_Storage_Device_Driver/blob/main/USB%203.x%20Architecture%20Flowchart.png?raw=true" width="800" alt="USB 3.x Architecture Flowchart">
 </p>
 
-Technologies Used
-Technology	Purpose
-C	Driver implementation
-Linux Kernel	Kernel module development
-USB 3.x	SuperSpeed communication
-USB Core	Device enumeration and endpoint management
-UAS	Advanced USB storage transport
-BOT	Bulk-Only Transport
-SCSI	Storage command interface
-URB	USB asynchronous transfer management
-USB Streams	Multiple concurrent UAS commands
-blk-mq	Linux multi-queue block layer
-Runtime PM	USB power management
 
 📂 Project Structure
 text
 
 usb-3x-mass-storage-driver/
 ├── Makefile
+
 ├── ums.h
+
 ├── ums_main.c
+
 ├── ums_bot.c
+
 ├── ums_uas.c
+
 ├── ums_scsi.c
+
 └── ums_utils.c
 
 <h2 align="center">USB 3.x Mass Storage Driver Flow</h2>
