@@ -111,15 +111,25 @@ URB	USB asynchronous transfer management
 USB Streams	Multiple concurrent UAS commands
 blk-mq	Linux multi-queue block layer
 Runtime PM	USB power management
-Project Structure
+
+📂 Project Structure
 text
+
 usb-3x-mass-storage-driver/
-│
-├── usb_ms_combo.c
 │
 ├── Makefile
 │
-└── README.md
+├── ums.h
+│
+├── ums_main.c
+│
+├── ums_bot.c
+│
+├── ums_uas.c
+│
+├── ums_scsi.c
+│
+└── ums_utils.c
 
 <h2 align="center">USB 3.x Mass Storage Driver Flow</h2>
 
