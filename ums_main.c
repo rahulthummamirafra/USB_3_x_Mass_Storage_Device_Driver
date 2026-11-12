@@ -1,12 +1,4 @@
 #include "ums.h"
-// Module parameters                                                       
-static bool disable_hub_lpm;
-module_param(disable_hub_lpm, bool, 0444);
-MODULE_PARM_DESC(disable_hub_lpm,"Forbid hub-initiated U1/U2 transitions (default: allowed)");
-
-static bool force_bot;
-module_param(force_bot, bool, 0444);
-MODULE_PARM_DESC(force_bot,"Use BOT even when UAS is possible (for comparison)");
 
 int ums_major;
 
@@ -71,12 +63,11 @@ static int ums_probe(struct usb_interface *intf,const struct usb_device_id *id)
     dev_info(&intf->dev,"USB MS: ---- DESCRIPTORS ----\n");
     ums_dump_link_info(dev);
     // Decide whether to use UAS 
-    try_uas = !force_bot && uas_alt >= 0 && udev->speed >= USB_SPEED_SUPER;
+    try_uas = uas_alt >= 0 && udev->speed >= USB_SPEED_SUPER;
 
     if(uas_alt >= 0 && !try_uas){
-        dev_info(&intf->dev,"USB Mass Storage : UAS available but not used (%s)\n", force_bot ? "force_bot=1" : "link is not SuperSpeed");
+       dev_info(&intf->dev,"USB MS: UAS available but link is not SuperSpeed\n");
     }
-
     // UAS initialization                                                  
     if(try_uas){
         dev_info(&intf->dev,"USB MS: ---- UAS: ENDPOINTS + STREAMS ----\n");
@@ -284,23 +275,20 @@ static struct usb_driver ums_driver = {
 static int __init ums_init(void)
 {
     int res;
-
     res = register_blkdev(0,"usb_ms_combo");
-
     if(res < 0){
         pr_err("USB MS: register_blkdev failed: %d\n", res);
         return res;
     }
 
     ums_major = res;
-    ums_driver.disable_hub_initiated_lpm = disable_hub_lpm;
     res = usb_register(&ums_driver);
     if(res){
         pr_err("USB Mass Storage usb_register failed: %d\n",res);
         unregister_blkdev(ums_major, "usb_ms_combo");
         return res;
     }
-    pr_info("USB MS: block major %d, hub LPM %s, force_bot=%d\n",ums_major,disable_hub_lpm ? "disabled" : "allowed",force_bot);
+    pr_info("USB MS: block major %d registered\n", ums_major);
     return 0;
 }
 static void __exit ums_exit(void)
@@ -313,6 +301,7 @@ static void __exit ums_exit(void)
 
 module_init(ums_init);
 module_exit(ums_exit);
+
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Rahul");
 MODULE_DESCRIPTION("USB Mass Storage");
